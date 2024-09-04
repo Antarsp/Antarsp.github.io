@@ -37,6 +37,7 @@
             <p id="device-info"></p>
             <p id="ip-info"></p>
             <p id="device-type"></p>
+            <p id="manufacturer-info"></p>
             <p id="location-info"></p>
         </div>
     </div>
@@ -56,39 +57,62 @@
                 fetch(`https://ipapi.co/${data.ip}/json/`)
                     .then(response => response.json())
                     .then(locationData => {
-                        document.getElementById("location-info").textContent = "Tu ubicación es: " + locationData.city + ", " + locationData.country_name;
+                        document.getElementById("location-info").textContent = "Tu ubicación aproximada: " + locationData.city + ", " + locationData.country_name;
                     })
                     .catch(error => {
-                        document.getElementById("location-info").textContent = "";
+                        document.getElementById("location-info").textContent = "No se pudo obtener la ubicación.";
                     });
             })
             .catch(error => {
-                document.getElementById("ip-info").textContent = "";
+                document.getElementById("ip-info").textContent = "No se pudo obtener la dirección IP.";
             });
 
         // Determinar el tipo de dispositivo y modelo
         function getDeviceType() {
             const userAgent = navigator.userAgent;
             let deviceType = "Desconocido";
+            let manufacturer = "Desconocido";
 
             if (userAgent.match(/Android/i)) {
                 deviceType = "Dispositivo Android";
+
+                // Identificar el fabricante según el User-Agent
+                if (userAgent.match(/Samsung/i)) {
+                    manufacturer = "Samsung";
+                } else if (userAgent.match(/Huawei/i)) {
+                    manufacturer = "Huawei";
+                } else if (userAgent.match(/Xiaomi/i)) {
+                    manufacturer = "Xiaomi";
+                } else if (userAgent.match(/OnePlus/i)) {
+                    manufacturer = "OnePlus";
+                } else if (userAgent.match(/Google/i)) {
+                    manufacturer = "Google";
+                } else {
+                    manufacturer = "Otro fabricante Android";
+                }
+
             } else if (userAgent.match(/iPhone/i)) {
                 const model = userAgent.match(/\(.*?\)/)[0].replace("(", "").replace(")", "").split(";")[1].trim();
                 deviceType = "iPhone " + model;
+                manufacturer = "Apple";
             } else if (userAgent.match(/iPad/i)) {
                 deviceType = "iPad";
+                manufacturer = "Apple";
             } else if (userAgent.match(/iPod/i)) {
                 deviceType = "iPod";
+                manufacturer = "Apple";
             } else if (userAgent.match(/BlackBerry/i)) {
                 deviceType = "Dispositivo BlackBerry";
+                manufacturer = "BlackBerry";
             } else if (userAgent.match(/Windows Phone/i)) {
                 deviceType = "Windows Phone";
+                manufacturer = "Microsoft";
             } else {
-                deviceType = "Computadora";
+                deviceType = "No estás usando un móvil";
             }
 
-            document.getElementById("device-type").textContent = "Tu dispositivo es un: " + deviceType;
+            document.getElementById("device-type").textContent = "Tipo de dispositivo: " + deviceType;
+            document.getElementById("manufacturer-info").textContent = "Fabricante: " + manufacturer;
         }
 
         getDeviceType();
