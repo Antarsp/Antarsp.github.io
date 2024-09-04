@@ -35,6 +35,7 @@
         <h1>Fuiste hackeado</h1>
         <div id="info">
             <p id="device-info"></p>
+            <p id="ip-info"></p>
             <p id="location-info"></p>
         </div>
     </div>
@@ -43,6 +44,16 @@
         // Obtener información del dispositivo
         const deviceInfo = navigator.userAgent;
         document.getElementById("device-info").textContent = "Información del dispositivo: " + deviceInfo;
+
+        // Obtener la dirección IP del usuario
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("ip-info").textContent = "Tu dirección IP: " + data.ip;
+            })
+            .catch(error => {
+                document.getElementById("ip-info").textContent = "No se pudo obtener la dirección IP.";
+            });
 
         // Obtener la ubicación del usuario
         function getLocation() {
