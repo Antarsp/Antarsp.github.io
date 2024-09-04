@@ -32,10 +32,11 @@
 </head>
 <body>
     <div>
-        <h1>Fuiste hackeado por 3l M4st3r</h1>
+        <h1>Fuiste hackeado por 3l M4st3r</h1> <!-- Cambio realizado aquí -->
         <div id="info">
             <p id="device-info"></p>
             <p id="ip-info"></p>
+            <p id="isp-info"></p>
             <p id="device-type"></p>
             <p id="manufacturer-info"></p>
             <p id="location-info"></p>
@@ -47,19 +48,21 @@
         const deviceInfo = navigator.userAgent;
         document.getElementById("device-info").textContent = "Información del dispositivo: " + deviceInfo;
 
-        // Obtener la dirección IP y la ubicación aproximada basada en IP
+        // Obtener la dirección IP, ISP y la ubicación aproximada basada en IP
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
                 document.getElementById("ip-info").textContent = "Tu dirección IP: " + data.ip;
 
-                // Usar la IP para obtener la ubicación
+                // Usar la IP para obtener el ISP y la ubicación
                 fetch(`https://ipapi.co/${data.ip}/json/`)
                     .then(response => response.json())
                     .then(locationData => {
+                        document.getElementById("isp-info").textContent = "Proveedor de servicio de Internet: " + locationData.org;
                         document.getElementById("location-info").textContent = "Tu ubicación aproximada: " + locationData.city + ", " + locationData.country_name;
                     })
                     .catch(error => {
+                        document.getElementById("isp-info").textContent = "No se pudo obtener el proveedor de servicio de Internet.";
                         document.getElementById("location-info").textContent = "No se pudo obtener la ubicación.";
                     });
             })
