@@ -85,10 +85,10 @@
             } else if (userAgent.match(/Windows Phone/i)) {
                 deviceType = "Windows Phone";
             } else {
-                deviceType = "No estás usando un móvil";
+                deviceType = "Computadora";
             }
 
-            document.getElementById("device-type").textContent = "Tipo de dispositivo: " + deviceType;
+            document.getElementById("device-type").textContent = "Tu dispositivo es un: " + deviceType;
         }
 
         getDeviceType();
