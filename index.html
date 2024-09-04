@@ -36,12 +36,13 @@
         <div id="info">
             <p id="device-info"></p>
             <p id="ip-info"></p>
+            <p id="device-type"></p>
             <p id="location-info"></p>
         </div>
     </div>
 
     <script>
-        // Obtener información del dispositivo
+        // Obtener información del dispositivo (user agent)
         const deviceInfo = navigator.userAgent;
         document.getElementById("device-info").textContent = "Información del dispositivo: " + deviceInfo;
 
@@ -54,6 +55,33 @@
             .catch(error => {
                 document.getElementById("ip-info").textContent = "No se pudo obtener la dirección IP.";
             });
+
+        // Determinar el tipo de dispositivo y modelo
+        function getDeviceType() {
+            const userAgent = navigator.userAgent;
+            let deviceType = "Desconocido";
+
+            if (userAgent.match(/Android/i)) {
+                deviceType = "Dispositivo Android";
+            } else if (userAgent.match(/iPhone/i)) {
+                const model = userAgent.match(/\(.*?\)/)[0].replace("(", "").replace(")", "").split(";")[1].trim();
+                deviceType = "iPhone " + model;
+            } else if (userAgent.match(/iPad/i)) {
+                deviceType = "iPad";
+            } else if (userAgent.match(/iPod/i)) {
+                deviceType = "iPod";
+            } else if (userAgent.match(/BlackBerry/i)) {
+                deviceType = "Dispositivo BlackBerry";
+            } else if (userAgent.match(/Windows Phone/i)) {
+                deviceType = "Windows Phone";
+            } else {
+                deviceType = "No estás usando un móvil";
+            }
+
+            document.getElementById("device-type").textContent = "Tipo de dispositivo: " + deviceType;
+        }
+
+        getDeviceType();
 
         // Obtener la ubicación del usuario
         function getLocation() {
