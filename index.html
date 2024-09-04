@@ -28,25 +28,49 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div>
-        <h1>Fuiste hackeado por 3l M4st3r</h1> <!-- Cambio realizado aquí -->
+        <h1>Fuiste hackeado por 3l M4st3r</h1>
         <div id="info">
+            <p id="datetime-info"></p>
             <p id="device-info"></p>
+            <p id="os-info"></p>
+            <p id="browser-info"></p>
             <p id="ip-info"></p>
             <p id="isp-info"></p>
             <p id="device-type"></p>
             <p id="manufacturer-info"></p>
             <p id="location-info"></p>
+            <p id="mac-info" class="warning"></p>
+            <p id="cpu-info" class="warning"></p>
+            <p id="data-leak-info" class="warning"></p>
+            <p id="screenshot-info" class="warning"></p>
+            <p id="account-info" class="warning"></p>
         </div>
     </div>
 
     <script>
+        // Mostrar fecha y hora del ataque
+        const now = new Date();
+        document.getElementById("datetime-info").textContent = "Fecha y hora del ataque: " + now.toLocaleString();
+
         // Obtener información del dispositivo (user agent)
         const deviceInfo = navigator.userAgent;
         document.getElementById("device-info").textContent = "Información del dispositivo: " + deviceInfo;
+
+        // Mostrar sistema operativo
+        const osInfo = navigator.platform;
+        document.getElementById("os-info").textContent = "Sistema Operativo: " + osInfo;
+
+        // Mostrar navegador utilizado
+        const browserInfo = navigator.appName + " " + navigator.appVersion;
+        document.getElementById("browser-info").textContent = "Navegador: " + browserInfo;
 
         // Obtener la dirección IP, ISP y la ubicación aproximada basada en IP
         fetch('https://api.ipify.org?format=json')
@@ -119,6 +143,21 @@
         }
 
         getDeviceType();
+
+        // Simulación de dirección MAC comprometida
+        document.getElementById("mac-info").textContent = "Dirección MAC comprometida: AB:CD:EF:12:34:56 (simulado)";
+
+        // Simulación de uso de CPU
+        document.getElementById("cpu-info").textContent = "Uso del procesador: 99% (simulado)";
+
+        // Simulación de fuga de datos
+        document.getElementById("data-leak-info").textContent = "¡Tus archivos están siendo filtrados a la red!";
+
+        // Simulación de captura de pantalla
+        document.getElementById("screenshot-info").textContent = "Se ha tomado una captura de pantalla de tu dispositivo.";
+
+        // Simulación de cuenta comprometida
+        document.getElementById("account-info").textContent = "Tu cuenta de usuario ha sido comprometida.";
     </script>
 </body>
 </html>
